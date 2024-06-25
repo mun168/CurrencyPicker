@@ -5,23 +5,24 @@ import PackageDescription
 
 let package = Package(
     name: "CurrencyPicker",
+    platforms: [.iOS("15")],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(
-            name: "CurrencyPicker",
-            targets: ["CurrencyPicker"]),
-    ],
-    dependencies: [
-    ],
+            .library(
+                name: "CurrencyPicker",
+                targets: ["CurrencyPicker"]
+            )
+        ],
+        dependencies: [
+        ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "CurrencyPicker"),
+            name: "CurrencyPicker",
             dependencies: [],
             resources: [.copy("Resources/currencies.json")]
+        ),
         .testTarget(
             name: "CurrencyPickerTests",
-            dependencies: ["CurrencyPicker"]),
+            dependencies: ["CurrencyPicker"]
+        ),
     ]
 )
