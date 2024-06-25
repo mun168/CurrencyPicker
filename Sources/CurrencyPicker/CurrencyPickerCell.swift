@@ -94,7 +94,7 @@ public final class CurrencyPickerCell: UITableViewCell {
         let currencySymbol = currency.isoCode == "ZW" ? "ZIG" : currency.currencySymbol
         
         
-        currencyNameLabel.text = currency.isoCode.getFlag() + " " + (currencyCode ?? "")
+        currencyNameLabel.text = currency.isoCode.getFlag() + " " + currency.currencyName!
         currencyCodeLabel.text = currencySymbol ?? ""
 
         if selectedCurrency == currency.isoCode {
