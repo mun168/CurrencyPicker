@@ -45,15 +45,28 @@ public final class CurrencyManager {
     
     public static func getAllCurrencies() -> [String: Currency]  {
         print("muno")
-        guard let path = Bundle.module.path(forResource: "currencies", ofType: "json"),
-              let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else { return [:] }
+        guard let path = Bundle.module.path(forResource: "currencies", ofType: "json") else {
+            print("Error: Path for currencies.json not found.")
+            return [:]
+        }
+        
+        print("Path: \(path)")
+        
+        guard let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+            print("Error: Unable to read data from path: \(path)")
+            return [:]
+        }
+        
         let rawCurrencies =  (try? JSONDecoder().decode([Currency].self, from: data)) ?? []
         print("munomu")
-        print("rawCurrencies" , rawCurrencies.count)
-        var memoizedCurrencies = [String: Currency]()
+        print("rawCurrencies count: ", rawCurrencies.count)
         
-        rawCurrencies.forEach { memoizedCurrencies[$0.isoCode] = $0}
+        var memoizedCurrencies = [String: Currency]()
+        rawCurrencies.forEach { memoizedCurrencies[$0.isoCode] = $0 }
+        
+        print("memoizedCurrencies count: ", memoizedCurrencies.count)
         
         return memoizedCurrencies
     }
+
 }
