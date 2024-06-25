@@ -32,7 +32,12 @@ public final class CurrencyManager {
     }
     
     public func findCurrencies(isCodes: [String])-> [Currency]{
-        
+        print("muno")
+        isoCodes?.forEach{ x in
+                    print("isocode" , x)
+                    findCurrency(isCode:x)
+                }
+
         return isCodes.map{findCurrency(isCode:$0)}
     }
     
