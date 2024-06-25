@@ -22,9 +22,7 @@ public final class CurrencyManager {
 
     public func setCurrencies(isoCodes: [String]?){
     
-        isoCodes?.forEach{ x in
-            print("isocode" , x)
-        }
+        
         if let isoCodes = isoCodes {
             filteredCurrencies = findCurrencies(isCodes: isoCodes)
             print("sdf" , filteredCurrencies)
@@ -32,10 +30,7 @@ public final class CurrencyManager {
     }
     
     public func findCurrencies(isCodes: [String])-> [Currency]{
-        print("muno")
-        isCodes.forEach{ x in
-            print(x)
-        }
+        
         return isCodes.map{findCurrency(isCode:$0)}
     }
     
@@ -50,7 +45,7 @@ public final class CurrencyManager {
     
     public static func getAllCurrencies() -> [String: Currency]  {
         print("muno")
-        guard let path = Bundle.module.path(forResource: "countries", ofType: "json"),
+        guard let path = Bundle.module.path(forResource: "currencies", ofType: "json"),
               let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else { return [:] }
         let rawCurrencies =  (try? JSONDecoder().decode([Currency].self, from: data)) ?? []
         print("munomu")
