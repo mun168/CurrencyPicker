@@ -25,7 +25,7 @@ public final class CurrencyManager {
         
         if let isoCodes = isoCodes {
             filteredCurrencies = findCurrencies(isCodes: isoCodes)
-            print("sdf" , filteredCurrencies)
+            print("sdhgf" , filteredCurrencies)
         }
     }
     
@@ -56,15 +56,10 @@ public final class CurrencyManager {
             print("Error: Unable to read data from path: \(path)")
             return [:]
         }
-        
         let rawCurrencies =  (try? JSONDecoder().decode([Currency].self, from: data)) ?? []
-        print("munomu")
-        print("rawCurrencies count: ", rawCurrencies.count)
         
         var memoizedCurrencies = [String: Currency]()
         rawCurrencies.forEach { memoizedCurrencies[$0.isoCode] = $0 }
-        
-        print("memoizedCurrencies count: ", memoizedCurrencies.count)
         
         return memoizedCurrencies
     }
