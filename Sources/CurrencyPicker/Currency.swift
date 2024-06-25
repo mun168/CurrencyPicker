@@ -35,7 +35,7 @@ public extension Currency {
     
     var currencyLocaleIdentifier: String
     {
-       NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.currencyCode.rawValue: isoCode])
+        NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: isoCode])
     }
     
     var currencyLocale: NSLocale
