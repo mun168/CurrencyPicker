@@ -90,12 +90,12 @@ public final class CurrencyPickerCell: UITableViewCell {
     func set(currency: Currency, selectedCurrency: String) {
         accessibilityIdentifier = currency.isoCode
         
-        let currencyCode = currency.isoCode == "ZW" ? "ZIG" : currency.currencyCode
-        let currencySymbol = currency.isoCode == "ZW" ? "ZIG" : currency.currencySymbol
+//        let currencyCode = currency.isoCode == "ZW" ? "ZIG" : currency.currencyCode
+//        let currencySymbol = currency.isoCode == "ZW" ? "ZIG" : currency.currencySymbol
         
         
-        currencyNameLabel.text = currency.isoCode.getFlag() + " " + currencyCode!
-        currencyCodeLabel.text = "+" + currencySymbol!
+        currencyNameLabel.text = currency.isoCode.getFlag() + " " + currency.currencyCode!
+        currencyCodeLabel.text = currency.currencySymbol
 
         if selectedCurrency == currency.isoCode {
             currencyCodeContainerView.backgroundColor = CurrencyManager.shared.config.selectedCurrencyCodeBackgroundColor
