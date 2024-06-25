@@ -8,7 +8,7 @@
 import Foundation
 
 public extension String {
-    /// Returns String unicode value of country flag for iso code
+    /// Returns String unicode value of currency flag for iso code
     func getFlag() -> String {
         unicodeScalars
             .map { 127_397 + $0.value }

@@ -1,6 +1,6 @@
 //
-//  CountryPicker.swift
-//  CountryPicker
+//  CurrencyPicker.swift
+//  CurrencyPicker
 //
 //  Created by Samet MACİT on 29.12.2020.
 //  Copyright © 2021 Mobven. All rights reserved.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-public protocol CountryPickerDelegate: AnyObject {
-    func countryPicker(didSelect country: Country)
+public protocol CurrencyPickerDelegate: AnyObject {
+    func currencyPicker(didSelect currency: Currency)
 }
 
-public final class CountryPickerViewController: UIViewController {
+public final class CurrencyPickerViewController: UIViewController {
     lazy var headerView: UIView = {
         let view = UIView()
         view.backgroundColor = ColorCompatibility.systemBackground
@@ -21,32 +21,32 @@ public final class CountryPickerViewController: UIViewController {
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = CountryManager.shared.config.titleText
-        label.font = CountryManager.shared.config.titleFont
-        label.textColor = CountryManager.shared.config.titleTextColor
+        label.text = CurrencyManager.shared.config.titleText
+        label.font = CurrencyManager.shared.config.titleFont
+        label.textColor = CurrencyManager.shared.config.titleTextColor
         return label
     }()
 
     lazy var closeButton: UIButton = {
         let button = UIButton()
-        button.setTitle(CountryManager.shared.config.closeButtonText, for: .normal)
-        button.setTitleColor(CountryManager.shared.config.closeButtonTextColor, for: .normal)
-        button.titleLabel?.font = CountryManager.shared.config.closeButtonFont
+        button.setTitle(CurrencyManager.shared.config.closeButtonText, for: .normal)
+        button.setTitleColor(CurrencyManager.shared.config.closeButtonTextColor, for: .normal)
+        button.titleLabel?.font = CurrencyManager.shared.config.closeButtonFont
         button.addTarget(self, action: #selector(close), for: .touchUpInside)
         return button
     }()
 
     lazy var searchTextField: UITextField = {
         let textField = UITextField()
-        textField.layer.cornerRadius = CountryManager.shared.config.searchBarCornerRadius
-        textField.backgroundColor = CountryManager.shared.config.searchBarBackgroundColor
+        textField.layer.cornerRadius = CurrencyManager.shared.config.searchBarCornerRadius
+        textField.backgroundColor = CurrencyManager.shared.config.searchBarBackgroundColor
         textField.addTarget(self, action: #selector(textEditingChanged), for: .editingChanged)
-        textField.font = CountryManager.shared.config.searchBarFont
+        textField.font = CurrencyManager.shared.config.searchBarFont
         textField.attributedPlaceholder = NSAttributedString(
-            string: CountryManager.shared.config.searchBarPlaceholder,
+            string: CurrencyManager.shared.config.searchBarPlaceholder,
             attributes: [
                 NSAttributedString.Key.foregroundColor:
-                    CountryManager.shared.config.searchBarPlaceholderColor
+                    CurrencyManager.shared.config.searchBarPlaceholderColor
             ]
         )
         setSearchIcon(textField)
@@ -56,7 +56,7 @@ public final class CountryPickerViewController: UIViewController {
 
     lazy var separatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = CountryManager.shared.config.separatorColor
+        view.backgroundColor = CurrencyManager.shared.config.separatorColor
         return view
     }()
 
@@ -64,7 +64,7 @@ public final class CountryPickerViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(CountryPickerCell.self, forCellReuseIdentifier: CountryPickerCell.reuseIdentifier)
+        tableView.register(CurrencyPickerCell.self, forCellReuseIdentifier: CurrencyPickerCell.reuseIdentifier)
         tableView.tableFooterView = UIView()
         tableView.keyboardDismissMode = .onDrag
         return tableView
@@ -75,7 +75,7 @@ public final class CountryPickerViewController: UIViewController {
         let outerView =
             UIView(frame: CGRect(x: iconPadding, y: 0, width: iconHeight + (iconPadding * 2), height: iconHeight))
         let iconView = UIImageView(frame: CGRect(x: iconPadding, y: 0, width: iconHeight, height: iconHeight))
-        iconView.image = CountryManager.shared.config.searchBarLeftImage ?? UIImage(
+        iconView.image = CurrencyManager.shared.config.searchBarLeftImage ?? UIImage(
             named: "02Icons16X16Search",
             in: .module,
             compatibleWith: nil
@@ -87,7 +87,7 @@ public final class CountryPickerViewController: UIViewController {
 
     /// Add custom image for clear button, default is textFields clear image.
     private func setClearButton(_ textField: UITextField) {
-        if let image = CountryManager.shared.config.searchBarClearImage {
+        if let image = CurrencyManager.shared.config.searchBarClearImage {
             let outerView = UIView(frame: CGRect(x: 0, y: 0, width: iconHeight + iconPadding, height: iconHeight))
             let button = UIButton(frame: CGRect(x: 0, y: 0, width: iconHeight, height: iconHeight))
             button.setImage(image, for: .normal)
@@ -100,7 +100,7 @@ public final class CountryPickerViewController: UIViewController {
         }
     }
 
-    public weak var delegate: CountryPickerDelegate?
+    public weak var delegate: CurrencyPickerDelegate?
 
     // MARK: - Constants
 
@@ -108,17 +108,17 @@ public final class CountryPickerViewController: UIViewController {
     private let iconHeight: CGFloat = 16
     private let estimatedCellHeight: CGFloat = 52
 
-    private var countries: [Country] = []
-    private var filteredCountries: [Country] = []
+    private var currencies: [Currency] = []
+    private var filteredCurrencies: [Currency] = []
 
-    /// selectedCountry will be shown in the first cell, default is "TR"
-    public var selectedCountry: String = "TR" {
+    /// selectedCurrency will be shown in the first cell, default is "TR"
+    public var selectedCurrency: String = "TR" {
         didSet {
-            if let selectedIndex = countries.firstIndex(where: { $0.isoCode == selectedCountry }) {
-                let country = countries[selectedIndex]
-                countries.remove(at: selectedIndex)
-                countries.insert(country, at: 0)
-                filteredCountries = countries
+            if let selectedIndex = currencies.firstIndex(where: { $0.isoCode == selectedCurrency }) {
+                let currency = currencies[selectedIndex]
+                currencies.remove(at: selectedIndex)
+                currencies.insert(currency, at: 0)
+                filteredCurrencies = currencies
             }
         }
     }
@@ -135,8 +135,8 @@ public final class CountryPickerViewController: UIViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        countries = CountryManager.shared.getCountries()
-        filteredCountries = countries
+        currencies = CurrencyManager.shared.getCurrencies()
+        filteredCurrencies = currencies
         tableView.reloadData()
     }
 
@@ -198,9 +198,9 @@ public final class CountryPickerViewController: UIViewController {
 
     @objc func textEditingChanged() {
         if searchTextField.text?.count == 0 {
-            filteredCountries = countries
+            filteredCurrencies = currencies
         } else if let text = searchTextField.text {
-            filteredCountries = countries
+            filteredCurrencies = currencies
                 .filter { $0.localizedName.localizedLowercase.contains(text.localizedLowercase) }
         }
         tableView.reloadData()
@@ -214,19 +214,19 @@ public final class CountryPickerViewController: UIViewController {
 
 // MARK: - UITableViewDataSource & UITableViewDelegate
 
-extension CountryPickerViewController: UITableViewDataSource, UITableViewDelegate {
+extension CurrencyPickerViewController: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        filteredCountries.count
+        filteredCurrencies.count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: CountryPickerCell.reuseIdentifier,
+            withIdentifier: CurrencyPickerCell.reuseIdentifier,
             for: indexPath
         )
-            as? CountryPickerCell else { return UITableViewCell() }
-        let item = filteredCountries[indexPath.row]
-        cell.set(country: item, selectedCountry: selectedCountry)
+            as? CurrencyPickerCell else { return UITableViewCell() }
+        let item = filteredCurrencies[indexPath.row]
+        cell.set(currency: item, selectedCurrency: selectedCurrency)
         return cell
     }
 
@@ -241,7 +241,7 @@ extension CountryPickerViewController: UITableViewDataSource, UITableViewDelegat
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
-            self.delegate?.countryPicker(didSelect: self.filteredCountries[indexPath.row])
+            self.delegate?.currencyPicker(didSelect: self.filteredCurrencies[indexPath.row])
         }
     }
 }
