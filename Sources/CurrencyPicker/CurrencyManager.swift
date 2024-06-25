@@ -45,7 +45,8 @@ public final class CurrencyManager {
         guard let path = Bundle.module.path(forResource: "countries", ofType: "json"),
               let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else { return [:] }
         let rawCurrencies =  (try? JSONDecoder().decode([Currency].self, from: data)) ?? []
-        print("rawCurrencies" , rawCurrencies)
+        print("munomu")
+        print("rawCurrencies" , rawCurrencies.count)
         var memoizedCurrencies = [String: Currency]()
         
         rawCurrencies.forEach { memoizedCurrencies[$0.isoCode] = $0}
