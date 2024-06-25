@@ -21,7 +21,10 @@ public final class CurrencyManager {
     public var localeIdentifier: String = NSLocale.current.identifier
 
     public func setCurrencies(isoCodes: [String]?){
-    print("muno")
+    
+        isoCodes?.forEach{ x in
+            print("isocode" , x)
+        }
         if let isoCodes = isoCodes {
             filteredCurrencies = findCurrencies(isCodes: isoCodes)
             print("sdf" , filteredCurrencies)
