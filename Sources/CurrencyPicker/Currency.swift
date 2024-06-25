@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Currency: Codable {
+public struct Currency: Codable,Equatable {
     public var phoneCode: String
     public let isoCode: String
 
