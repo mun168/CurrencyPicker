@@ -90,7 +90,7 @@ public final class CurrencyPickerCell: UITableViewCell {
     func set(currency: Currency, selectedCurrency: String) {
         accessibilityIdentifier = currency.isoCode
         
-        let currencyCode = currency.isoCode == "ZW" ? "ZIG" : currency.currencyCode
+        let currencyName = currency.isoCode == "ZW" ? "ZIG" : currency.currencyName
         let currencySymbol = currency.isoCode == "ZW" ? "ZIG" : currency.currencySymbol
         
         
