@@ -32,6 +32,7 @@ public final class CurrencyManager {
     }
     
     public func findCurrency(isCode: String)-> Currency{
+          print("isCode" , isCode)
           return CurrencyManager.memoizedCurrencies[isCode]!
     }
     
