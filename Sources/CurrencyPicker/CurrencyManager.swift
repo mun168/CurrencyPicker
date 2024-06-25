@@ -41,6 +41,7 @@ public final class CurrencyManager {
     }
     
     public static func getAllCurrencies() -> [String: Currency]  {
+        print("muno")
         guard let path = Bundle.module.path(forResource: "countries", ofType: "json"),
               let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else { return [:] }
         let rawCurrencies =  (try? JSONDecoder().decode([Currency].self, from: data)) ?? []
